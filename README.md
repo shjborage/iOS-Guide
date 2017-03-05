@@ -3,9 +3,23 @@ iOS 学习与面试相关
 
 ## 深度
 -   Runtime
+    +   meta-class
+-   Responder Chain
+-   Runloop
+-   内存管理
+
+## 架构
+-   MVC
+-   MVVM、VIPER
+-   设计模式（单例、Commnad、工厂模式、状态机等）
 
 ## 广度
 -   CoreAnimation
 -   CoreGraphics
 -   Networking
 -   动态更新
+
+## 通用
+-   准确的 Timer
+-   多线程与线程间通信
+
