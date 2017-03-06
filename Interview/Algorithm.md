@@ -4,3 +4,8 @@
 在这里给大家推荐几个网站先：
 -   [CodeWar](https://www.codewars.com) 各种语言的算法题，由简到难，很不错
 -   [LeetCode](https://leetcode.com/) 这个是算法界必备，还是有点挑战的。如果实在不行，这里有个 [题解](https://www.gitbook.com/book/siddontang/leetcode-solution/details)。   
+
+
+## [swap](Algorithm/Swap.md)
+`swap` 交换算法其实说来简单，但也有几种方法。各种方法也各有利弊。
+至少有个3、4种解法，[详情揭秘](Algorithm/Swap.md)。
