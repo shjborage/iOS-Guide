@@ -1,4 +1,4 @@
-# `swap` 两个数解法
+# `swap` 两个数交换
 使用 `C` 语言实现
 
 ## Solution
@@ -61,25 +61,25 @@ void swap(int *a, int *b) {
 #include <stdio.h>
 
 void swap(int *a, int *b) {
-    //方法一：   
+    // 方法一：   
     //int tmp = 0;
     //tmp = *b;
     //*b = *a;  
     //*a = tmp;  
 
-    //方法二：   
+    // 方法二：   
     //*a = *a+*b;   
     //*b = *a-*b;   
     //*a = *a-*b;  
 
-    //方法三:
+    // 方法三:
     // 下面这两种写法，是同一个意思
     //*a ^= *b ^= *a ^= *b;
     *a = *a ^ *b;
     *b = *b ^ *a;
     *a = *a ^ *b;
 
-    //方法四：   
+    // 方法四：   
     //*a = *a+*b-(*b=*a);   
 }  
 
