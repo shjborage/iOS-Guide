@@ -24,6 +24,6 @@ iOS 学习框架与面试
 -   多线程与线程间通信
 
 ## [面试](Interview/Overview.md)
--   [C](https://github.com/shjborage/C) 如果遇到 `C` 来写算法，来这儿看看 `C` 相关的吧
+-   [C](https://github.com/shjborage/C) 如果遇到 `C` 来写算法，来[这儿](https://github.com/shjborage/C)看看 `C` 相关的吧
 -   [算法](Interview/Algorithm.md)
 -   规范
