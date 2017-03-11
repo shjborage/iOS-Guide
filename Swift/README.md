@@ -22,12 +22,51 @@
 另外一方面，去年期待的 ABI（Application Binary Interface）稳定也会于今年秋在 `Swift 4` 与大家见面。
 
 所以，是时候开工啦~
-
+    
 ## How？ 
 
 -   官方介绍了解特性
 -   `Xcode Playground`
 -   [入门教程](https://developer.apple.com/library/prerelease/content/documentation/Swift/Conceptual/Swift_Programming_Language/GuidedTour.html#//apple_ref/doc/uid/TP40014097-CH2-ID1)
 -   [完整的这本书： The Swift Programming Language (Swift 3.1)](https://developer.apple.com/library/prerelease/content/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html#//apple_ref/doc/uid/TP40014097-CH5-ID309)
+-   [CodeWars](https://www.codewars.com) 这个平台有各种级别的算法题，可以来这练，支持 `Swift` 哦~
+
+
+## 和其它语言差异
+
+### 省略了各种括号，同时 `Int` 不能转化为 `if` 的 `statement`
+
+```
+let indivdualScores = [75, 43, 103, 87, 12];
+var teamScore = 0
+for score in indivdualScores {
+    if score > 50 {
+//    if score {
+        teamScore += 3
+    } else {
+        teamScore += 1
+    }
+}
+print(teamScore)
+```
+
+如果使用 `if score {` 的话，就会报这个错
+
+```
+Playground execution failed: error: Swift_Playground.playground:19:8: error: 'Int' is not convertible to 'Bool'
+    if score {
+       ^~~~~
+
+```
+
+这是 **Safe** 的表现哇~
+
+### `switch` 差异说明
+
+-   switch 必要要有 `default` 语句，否则报 `Switch must be exhaustive, consider adding a default clause` 错
+-   switch 语句不需要 `break`, 一旦条件符合 执行 自动跳出 switch 语句块
+-   switch support any kind of data and a wide variety of comparison operations, switch 支持任何数据类型 和 各种各样的比较操作
+
+
 
 
