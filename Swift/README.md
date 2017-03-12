@@ -32,7 +32,7 @@
 -   [CodeWars](https://www.codewars.com) 这个平台有各种级别的算法题，可以来这练，支持 `Swift` 哦~
 
 
-## 和其它语言差异
+## A Quick Tour
 
 ### Optional
 
@@ -236,7 +236,82 @@ print(mapedNumbers)
 print(sortedNumbers)
 ```
 
+### Objects & Classes
+
+常用的都在这儿了，比较好理解。 `willSet` 以及 `didSet` 是在 `init` 外部调用才会调用。这块后续还要再看下原理了解一下实现细节。
+
+``` swift
+class Shape {
+    var numberOfSides = 0
+    var name: String
+    let constantValue = 1;
+    
+    init(name: String) {
+        self.name = name
+    }
+    
+    deinit {
+        
+    }
+    
+    func simpleDesc() -> String {
+        return "A \(name) shape with \(numberOfSides) sides"
+    }
+    func _print(number: Int) {
+        print(number)
+    }
+}
+
+var shape = Shape(name: "asdf")
+shape.simpleDesc()
+shape.numberOfSides = 7
+shape.simpleDesc()
+shape._print(number: 4)
+
+// Subclass
+class Square: Shape {
+    var sideLength: Double = 0.0
+    var perimeter: Double {
+//        get {
+//            return sideLength * 2
+//        }
+//        set {
+//            sideLength = newValue / 2
+//        }
+        willSet {
+            print(newValue)
+        }
+        didSet {
+            print(oldValue)
+        }
+    }
+    
+    init(sideLength: Double, name: String) {
+        self.sideLength = sideLength
+        self.perimeter = sideLength / 2
+        super.init(name: name)
+        numberOfSides = 4
+    }
+    
+    func area() -> Double {
+        return sideLength * sideLength
+    }
+    
+    override func simpleDesc() -> String {
+        return "A square with sides of length \(sideLength)"
+    }
+}
+
+var aSquare = Square(sideLength: 4, name: "Eric")
+print(aSquare.area())
+aSquare.simpleDesc()
+aSquare.sideLength = 3
+//aSquare.perimeter = 4
+//aSquare.simpleDesc()
+```
+
 ## Refs
+-   [The Swift Programming Language (Swift 3.1)](https://developer.apple.com/library/prerelease/content/documentation/Swift/Conceptual/Swift_Programming_Language/GuidedTour.html#//apple_ref/doc/uid/TP40014097-CH2-ID1)
 -   类型推断拆包：<http://stackoverflow.com/questions/24877098/value-of-optional-type-int-not-unwrapped-did-you-mean-to-use-or>
 -   [函数式编程_百度百科](http://baike.baidu.com/link?url=z5EJyTm0t-tfb-NkEXCss8Pvihg5PPEM5v63em6IR1eus7neS6FSqwA1IQS8GzgqiTNRVMep310xtFjWEPnmEASHLPMJBW2Lw6ls_0irtmiL1aagHNwT7onirR1rp-B7rvap9UHfPgdzK4oW-BLgkq)
 -   [函数式编程扫盲篇](http://www.cnblogs.com/kym/archive/2011/03/07/1976519.html)
