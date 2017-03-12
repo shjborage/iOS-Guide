@@ -428,6 +428,60 @@ let protocalValue: ExampleProtocal = doubleTest
 print(protocalValue.desc)
 ```
 
+### Error Handling
+
+感觉比 `Objective-C` 的 `NSError` 方便多了，很便于理解。而且增加的 `defer` 功能也在很多场景下便于实现逻辑。见实际代码吧：
+
+``` swift
+enum PrinterError: Error {
+    case outOfPaper
+    case noToner
+    case onFire
+}
+
+var printingStatus = false;
+
+func send(job: Int, toPrinter printerName: String) throws -> String {
+    print("start with status \(printingStatus)")
+    printingStatus = true;
+    defer {
+        print("defer with status \(printingStatus)")
+        printingStatus = false;
+    }
+    
+    if printerName == "Never has toner" {
+        throw PrinterError.noToner
+    } else {
+//        throw PrinterError.onFire
+    }
+    
+    defer {
+        print("another defer with status \(printingStatus)")
+        printingStatus = false;
+    }
+    
+    return "Job sent"
+}
+
+do {
+//    let response = try send(job: 2, toPrinter: "Never has toner")
+    let response = try send(job: 2, toPrinter: "asdf")
+    print(response)
+} catch PrinterError.onFire {
+    print("on fire")
+} catch let printerError as PrinterError {
+    print("printer error: \(printerError)")
+} catch {
+    print(error)
+}
+
+
+let responseNew = try? send(job: 3, toPrinter: "Never has toner")
+print(responseNew ?? "")
+```
+
+注意 `defer` 的执行时机。
+
 ## Refs
 -   [The Swift Programming Language (Swift 3.1)](https://developer.apple.com/library/prerelease/content/documentation/Swift/Conceptual/Swift_Programming_Language/GuidedTour.html#//apple_ref/doc/uid/TP40014097-CH2-ID1)
 -   类型推断拆包：<http://stackoverflow.com/questions/24877098/value-of-optional-type-int-not-unwrapped-did-you-mean-to-use-or>
