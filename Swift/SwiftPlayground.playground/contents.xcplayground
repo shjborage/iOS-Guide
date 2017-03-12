@@ -7,5 +7,6 @@
         <page name='4. Enumerations&amp;Structures'/>
         <page name='5. Protocols&amp;Extensions'/>
         <page name='6. ErrorHandling'/>
+        <page name='7. Generics'/>
     </pages>
 </playground>

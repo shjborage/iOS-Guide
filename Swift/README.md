@@ -482,11 +482,36 @@ print(responseNew ?? "")
 
 注意 `defer` 的执行时机。
 
+### Generics
+
+泛型，对不同类型的统一支持，后续详细研究。
+
+``` swift
+func swapTwo<T>(_ a: inout T, _ b : inout T) {
+    let tmp = a
+    a = b
+    b = tmp
+}
+
+var hi = "Hello"
+var name = "asdf;"
+swapTwo(&name, &hi)
+print("\(name) \(hi)")
+
+
+var a = 5
+var b = 7
+swapTwo(&a, &b)
+print("a \(a) b \(b)")
+```
+
+注意这里的 `inout` 代表列参可修改，其实就是 `C` 里的传引用。
+
 ## Refs
 -   [The Swift Programming Language (Swift 3.1)](https://developer.apple.com/library/prerelease/content/documentation/Swift/Conceptual/Swift_Programming_Language/GuidedTour.html#//apple_ref/doc/uid/TP40014097-CH2-ID1)
 -   类型推断拆包：<http://stackoverflow.com/questions/24877098/value-of-optional-type-int-not-unwrapped-did-you-mean-to-use-or>
 -   [函数式编程_百度百科](http://baike.baidu.com/link?url=z5EJyTm0t-tfb-NkEXCss8Pvihg5PPEM5v63em6IR1eus7neS6FSqwA1IQS8GzgqiTNRVMep310xtFjWEPnmEASHLPMJBW2Lw6ls_0irtmiL1aagHNwT7onirR1rp-B7rvap9UHfPgdzK4oW-BLgkq)
 -   [函数式编程扫盲篇](http://www.cnblogs.com/kym/archive/2011/03/07/1976519.html)
-
+-   [Swift 学习之泛型](http://www.jianshu.com/p/6624f5365745)
 
 
