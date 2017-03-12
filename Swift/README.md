@@ -310,6 +310,92 @@ aSquare.sideLength = 3
 //aSquare.simpleDesc()
 ```
 
+### Enumerations & Structures
+
+#### `enum`
+
+可支持 `func`，并且可指定不同类型的 `rawValue`，示例中使用 `Int`，也可以使用 `float` 和 `String`
+
+``` swift
+enum Rank: Int {
+    case ace = 1
+    case two, three, four, five, six, seven, eight, nine, ten
+    case jack, queen, king
+    
+    func desc() -> String {
+        switch self {
+        case .ace:
+            return "ace"
+        case .jack:
+            return "jack"
+        case .queen:
+            return "queen"
+        case .king:
+            return "king"
+            
+        default:
+            return String(self.rawValue)
+        }
+    }
+    
+    func isEqualtoRank(_ rank : Rank) -> Bool {
+        return rank.rawValue == self.rawValue
+    }
+}
+
+let ace = Rank.ace;
+print(ace)
+ace.rawValue
+print(Rank.king.rawValue)
+Rank.king.desc()
+
+ace.isEqualtoRank(Rank.king)
+ace.isEqualtoRank(Rank.two)
+ace.isEqualtoRank(Rank.ace)
+```
+
+##### 构造方法
+`init?(rawValue:)`
+
+``` swift
+//if let threeDesc = Rank.init(rawValue: 23) {
+if let threeDesc = Rank.init(rawValue: 3) {
+    print(threeDesc.desc())
+} else {
+    print("unknown")
+}
+```
+
+##### 高级用法
+
+待研究实现细节
+
+``` swift
+enum ServerResponse {
+    case result(String, String)
+    case failure(String)
+    case unknown(String)
+}
+
+let success = ServerResponse.result("6:00 am", "8:09 pm")
+let failure = ServerResponse.failure("Out of cheese.")
+let unknown = ServerResponse.unknown("unknowned")
+
+switch unknown {
+case let .result(sunrise, sunset):
+    print("Sunrise is at \(sunrise) and sunset is at \(sunset).")
+case let .failure(message):
+    print("Failure...  \(message)")
+case let .unknown(message):
+    print("asdf: \(message)")
+}
+```
+
+#### `struct`
+
+基本上与 `class` 类似，也支持成员变量、方法等。但 `struct` 在传值时是值传递，而且 `class` 是址传递。
+
+
 ## Refs
 -   [The Swift Programming Language (Swift 3.1)](https://developer.apple.com/library/prerelease/content/documentation/Swift/Conceptual/Swift_Programming_Language/GuidedTour.html#//apple_ref/doc/uid/TP40014097-CH2-ID1)
 -   类型推断拆包：<http://stackoverflow.com/questions/24877098/value-of-optional-type-int-not-unwrapped-did-you-mean-to-use-or>
