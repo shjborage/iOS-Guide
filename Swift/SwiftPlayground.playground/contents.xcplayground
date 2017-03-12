@@ -5,5 +5,6 @@
         <page name='2. Functions&amp;Closures'/>
         <page name='3. Objects&amp;Classes'/>
         <page name='4. Enumerations&amp;Structures'/>
+        <page name='5. Protocols&amp;Extensions'/>
     </pages>
 </playground>

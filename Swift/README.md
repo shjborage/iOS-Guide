@@ -396,6 +396,38 @@ case let .unknown(message):
 基本上与 `class` 类似，也支持成员变量、方法等。但 `struct` 在传值时是值传递，而且 `class` 是址传递。
 
 
+### Protocols & Extensions
+
+类似 `Objective-C`，不过可以对一些基础类型进行扩展，比如 `Double`。 使用更加方便，整体思路类似的。
+
+``` swift
+protocol ExampleProtocal {
+    var desc: String { get }
+    mutating func adjust()
+}
+
+
+extension Double : ExampleProtocal{
+    var desc: String {
+        return String(self)
+    }
+    
+    func absoluteValue() -> Int {
+        return Int(self)
+    }
+    
+    mutating func adjust() {
+        self += 0.5
+    }
+}
+var doubleTest = 7.6
+doubleTest.adjust()
+doubleTest.absoluteValue()
+
+let protocalValue: ExampleProtocal = doubleTest
+print(protocalValue.desc)
+```
+
 ## Refs
 -   [The Swift Programming Language (Swift 3.1)](https://developer.apple.com/library/prerelease/content/documentation/Swift/Conceptual/Swift_Programming_Language/GuidedTour.html#//apple_ref/doc/uid/TP40014097-CH2-ID1)
 -   类型推断拆包：<http://stackoverflow.com/questions/24877098/value-of-optional-type-int-not-unwrapped-did-you-mean-to-use-or>
