@@ -31,6 +31,9 @@
 -   [完整的这本书： The Swift Programming Language (Swift 3.1)](https://developer.apple.com/library/prerelease/content/documentation/Swift/Conceptual/Swift_Programming_Language/TheBasics.html#//apple_ref/doc/uid/TP40014097-CH5-ID309)
 -   [CodeWars](https://www.codewars.com) 这个平台有各种级别的算法题，可以来这练，支持 `Swift` 哦~
 
+## Full Contents
+
+-   [Using the Package Manager](/UsingthePackageManager.md)
 
 ## A Quick Tour
 
@@ -513,5 +516,5 @@ print("a \(a) b \(b)")
 -   [函数式编程_百度百科](http://baike.baidu.com/link?url=z5EJyTm0t-tfb-NkEXCss8Pvihg5PPEM5v63em6IR1eus7neS6FSqwA1IQS8GzgqiTNRVMep310xtFjWEPnmEASHLPMJBW2Lw6ls_0irtmiL1aagHNwT7onirR1rp-B7rvap9UHfPgdzK4oW-BLgkq)
 -   [函数式编程扫盲篇](http://www.cnblogs.com/kym/archive/2011/03/07/1976519.html)
 -   [Swift 学习之泛型](http://www.jianshu.com/p/6624f5365745)
-
+-   [ Swift3.0学习笔记-Functions](http://blog.csdn.net/brycegao321/article/details/53114940)
 
