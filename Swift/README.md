@@ -33,7 +33,7 @@
 
 ## Full Contents
 
--   [Using the Package Manager](/UsingthePackageManager.md)
+-   [Using the Package Manager](UsingthePackageManager.md)
 
 ## A Quick Tour
 
