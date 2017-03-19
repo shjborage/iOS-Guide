@@ -36,7 +36,7 @@ shape.simpleDesc()
 shape._print(number: 4)
 
 // Subclass
-class Square: Shape {
+class Square: Shape, CustomStringConvertible {
     var sideLength: Double = 0.0
     var perimeter: Double {
 //        get {
@@ -67,6 +67,10 @@ class Square: Shape {
     override func simpleDesc() -> String {
         return "A square with sides of length \(sideLength)"
     }
+    
+    var description: String {
+        return "A square with sides of length \(sideLength)"
+    }
 }
 
 var aSquare = Square(sideLength: 4, name: "Eric")
@@ -75,4 +79,6 @@ aSquare.simpleDesc()
 aSquare.sideLength = 3
 //aSquare.perimeter = 4
 //aSquare.simpleDesc()
+
+print(aSquare)
 

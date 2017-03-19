@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <playground version='6.0' target-platform='ios' display-mode='raw'>
     <pages>
+        <page name='Have a try'/>
         <page name='1. SimpleValue&amp;ControlFlow'/>
         <page name='2. Functions&amp;Closures'/>
         <page name='3. Objects&amp;Classes'/>
