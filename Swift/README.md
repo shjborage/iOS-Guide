@@ -22,8 +22,8 @@
 另外一方面，去年期待的 ABI（Application Binary Interface）稳定也会于今年秋在 `Swift 4` 与大家见面。
 
 所以，是时候开工啦~
-    
-## How？ 
+
+## How？
 
 -   官方介绍了解特性
 -   `Xcode Playground`
@@ -106,7 +106,7 @@ Playground execution failed: error: Swift_Playground.playground:19:8: error: 'In
 
 >   **Functions are a first-class type**
 
-*所谓"第一等公民"（first class），指的是函数与其他数据类型一样，处于平等地位，可以赋值给其他变量，也可以作为参数，传入另一个函数，或者作为别的函数的返回值。* 
+*所谓"第一等公民"（first class），指的是函数与其他数据类型一样，处于平等地位，可以赋值给其他变量，也可以作为参数，传入另一个函数，或者作为别的函数的返回值。*
 
 
 定义跟 `Objective-C` 类似，不过升级了一下，支持对参数名称的省略和 label 支持。
@@ -128,7 +128,7 @@ func calculateStatistics(scores: [Int]) -> (min: Int, max: Int, sum:Int) {
     var min = scores[0]
     var max = scores[0]
     var sum = 0
-    
+
     for score in scores {
         if score > max {
             max = score
@@ -137,7 +137,7 @@ func calculateStatistics(scores: [Int]) -> (min: Int, max: Int, sum:Int) {
         }
         sum += score
     }
-    
+
     return (min, max, sum)
 }
 
@@ -248,15 +248,15 @@ class Shape {
     var numberOfSides = 0
     var name: String
     let constantValue = 1;
-    
+
     init(name: String) {
         self.name = name
     }
-    
+
     deinit {
-        
+
     }
-    
+
     func simpleDesc() -> String {
         return "A \(name) shape with \(numberOfSides) sides"
     }
@@ -288,18 +288,18 @@ class Square: Shape {
             print(oldValue)
         }
     }
-    
+
     init(sideLength: Double, name: String) {
         self.sideLength = sideLength
         self.perimeter = sideLength / 2
         super.init(name: name)
         numberOfSides = 4
     }
-    
+
     func area() -> Double {
         return sideLength * sideLength
     }
-    
+
     override func simpleDesc() -> String {
         return "A square with sides of length \(sideLength)"
     }
@@ -324,7 +324,7 @@ enum Rank: Int {
     case ace = 1
     case two, three, four, five, six, seven, eight, nine, ten
     case jack, queen, king
-    
+
     func desc() -> String {
         switch self {
         case .ace:
@@ -335,12 +335,12 @@ enum Rank: Int {
             return "queen"
         case .king:
             return "king"
-            
+
         default:
             return String(self.rawValue)
         }
     }
-    
+
     func isEqualtoRank(_ rank : Rank) -> Bool {
         return rank.rawValue == self.rawValue
     }
@@ -414,11 +414,11 @@ extension Double : ExampleProtocal{
     var desc: String {
         return String(self)
     }
-    
+
     func absoluteValue() -> Int {
         return Int(self)
     }
-    
+
     mutating func adjust() {
         self += 0.5
     }
@@ -451,18 +451,18 @@ func send(job: Int, toPrinter printerName: String) throws -> String {
         print("defer with status \(printingStatus)")
         printingStatus = false;
     }
-    
+
     if printerName == "Never has toner" {
         throw PrinterError.noToner
     } else {
 //        throw PrinterError.onFire
     }
-    
+
     defer {
         print("another defer with status \(printingStatus)")
         printingStatus = false;
     }
-    
+
     return "Job sent"
 }
 
@@ -516,5 +516,5 @@ print("a \(a) b \(b)")
 -   [函数式编程_百度百科](http://baike.baidu.com/link?url=z5EJyTm0t-tfb-NkEXCss8Pvihg5PPEM5v63em6IR1eus7neS6FSqwA1IQS8GzgqiTNRVMep310xtFjWEPnmEASHLPMJBW2Lw6ls_0irtmiL1aagHNwT7onirR1rp-B7rvap9UHfPgdzK4oW-BLgkq)
 -   [函数式编程扫盲篇](http://www.cnblogs.com/kym/archive/2011/03/07/1976519.html)
 -   [Swift 学习之泛型](http://www.jianshu.com/p/6624f5365745)
--   [ Swift3.0学习笔记-Functions](http://blog.csdn.net/brycegao321/article/details/53114940)
-
+-   [Swift3.0学习笔记-Functions](http://blog.csdn.net/brycegao321/article/details/53114940)
+-   [行走于 Swift 的世界中](https://onevcat.com/2014/06/walk-in-swift/)
