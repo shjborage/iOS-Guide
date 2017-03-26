@@ -9,3 +9,6 @@
 ## [swap](Algorithm/Swap.md)
 `swap` 交换算法其实说来简单，但也有几种方法。各种方法也各有利弊。  
 至少有个3、4种解法，[详情揭秘](Algorithm/Swap.md)。
+
+## [二维数据行列互换](Algorithm/ArrayExchangeRC.md)
+二维数据行列相同，切换算法相对简单，写起来还是费点劲，详见[代码](Algorithm/erray_exchange_rc.c)。

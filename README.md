@@ -20,6 +20,7 @@ iOS 学习框架与面试
 ## 广度
 -   CoreAnimation
 -   CoreGraphics
+-   CoreText
 -   Networking
 -   动态更新
 
