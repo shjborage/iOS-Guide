@@ -1,6 +1,6 @@
 # Using the Package Manager
 
-`Swift` 有自己的包管理器，不像 `Objective-C` 需要类似 `CocoaPods` 这样第三方的包管理器，这也是与时俱进的表现。
+Swift 有自己的包管理器，不像 `Objective-C` 需要类似 `CocoaPods` 这样第三方的包管理器，这也是与时俱进的表现。
 
 ## 创建 package
 
