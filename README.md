@@ -2,6 +2,7 @@
 iOS 学习框架与面试
 
 ## 语言
+-   [C](/C)
 -   [Objective-C](/Objective-C)
 -   [Swift](/Swift)
 -   JavaScript
@@ -38,7 +39,7 @@ iOS 学习框架与面试
 一个 iOS 应用包含的方方面面，大多数可以使用三方库来满足。
 
 ## [面试](Interview/Overview.md)
--   [C](https://github.com/shjborage/C) 如果遇到 `C` 来写算法，来[这儿](https://github.com/shjborage/C)看看 `C` 相关的吧
+-   [C](/C) 如果遇到 `C` 来写算法，来[这儿](/C)看看 `C` 相关的吧
 -   [算法](Interview/Algorithm.md)
 
 

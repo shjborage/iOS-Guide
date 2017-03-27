@@ -4,3 +4,6 @@
 [submodule "Styles/CodingStyle"]
 	path = Styles/CodingStyle
 	url = https://github.com/shjborage/CodingStyle
+[submodule "C/C"]
+	path = C/C
+	url = https://github.com/shjborage/C
