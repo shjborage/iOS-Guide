@@ -1,3 +1,6 @@
 [submodule "Demo/Swift/LinkMark"]
 	path = Demo/Swift/LinkMark
 	url = git@github.com:shjborage/LinkMark.git
+[submodule "Styles/CodingStyle"]
+	path = Styles/CodingStyle
+	url = https://github.com/shjborage/CodingStyle
