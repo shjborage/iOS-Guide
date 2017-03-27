@@ -34,6 +34,7 @@
 ## Full Contents
 
 -   [Using the Package Manager](UsingthePackageManager.md)
+-   [与 C API 通信相关](CompileWithC.md)
 
 ## A Quick Tour
 
