@@ -29,7 +29,7 @@ iOS 学习框架与面试
 ## 通用
 -   规范
     +   流程规范
-    +   [代码规范](Styles/CodingStyle)
+    +   [代码规范](https://github.com/shjborage/CodingStyle)
 -   多线程与线程间通信
 -   网络
 -   操作系统
