@@ -35,6 +35,7 @@
 
 -   [Using the Package Manager](UsingthePackageManager.md)
 -   [与 C API 通信相关](CompileWithC.md)
+-   [Swift API Design Guidelines](APIDesignGuide.md)
 
 ## A Quick Tour
 
