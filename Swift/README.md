@@ -36,6 +36,8 @@
 -   [Using the Package Manager](UsingthePackageManager.md)
 -   [与 C API 通信相关](CompileWithC.md)
 -   [Swift API Design Guidelines](APIDesignGuide.md)
+-   [面向协议编程](POPProgramming.md)
+-   [常用第三方库使用收集](SwiftVendors.md)
 
 ## A Quick Tour
 
@@ -521,3 +523,5 @@ print("a \(a) b \(b)")
 -   [Swift3.0学习笔记-Functions](http://blog.csdn.net/brycegao321/article/details/53114940)
 -   [行走于 Swift 的世界中](https://onevcat.com/2014/06/walk-in-swift/)
 -   [Swift 性能探索和优化分析](https://onevcat.com/2016/02/swift-performance/)
+
+
