@@ -35,10 +35,8 @@ iOS 学习框架与面试
 -   [网络](CommonTech/Networking)
 -   操作系统
 
-## 工程
--   一个 iOS 应用包含的方方面面，大多数可以使用三方库来满足。
--   静态库和 Framework
-
+## [工程](CommonTech/Project.md)
+一个 iOS 应用包含的方方面面...
 
 ## [面试](Interview/Overview.md)
 -   [C](/C) 如果遇到 `C` 来写算法，来[这儿](/C)看看 `C` 相关的吧
