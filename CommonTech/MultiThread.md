@@ -102,10 +102,205 @@ return i;
 [ObjC 有个示例](https://github.com/objcio/issue-2-background-file-io)，有兴趣详细看下吧。
 
 ## 底层并发 API
+这块主要包含 GCD 的各种底层 API，这块其实除了 `dispatch_once` 外，其它的作为了解就行了。
 
+主要有这些 API，如果想了解细节可以看 Apple 的文档或这篇文章：[ObjC 中国-底层并发 API](https://objccn.io/issue-2-3/)。
+
+```objc
+// 延后执行
+double delayInSeconds = 2.0;
+dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t) (delayInSeconds * NSEC_PER_SEC));
+dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+   [self bar];
+});
+   
+// 队列 
+NSString *label = [NSString stringWithFormat:@"%@.isolation.%p", [self class], self];
+self.isolationQueue = dispatch_queue_create([label UTF8String], 0);
+self.isolationQueue = dispatch_queue_create([label UTF8String], DISPATCH_QUEUE_CONCURRENT);
+    
+- (NSUInteger)countForKey:(NSString *)key;
+{
+    __block NSUInteger count;
+    dispatch_sync(self.isolationQueue, ^(){
+        NSNumber *n = self.counts[key];
+        count = [n unsignedIntegerValue];
+    });
+    return count;
+}
+
+- (void)setCount:(NSUInteger)count forKey:(NSString *)key
+{
+    key = [key copy];
+    dispatch_barrier_async(self.isolationQueue, ^(){
+        if (count == 0) {
+            [self.counts removeObjectForKey:key];
+        } else {
+            self.counts[key] = @(count);
+        }
+    });
+}
+
+// 迭代执行
+dispatch_apply(height, dispatch_get_global_queue(0, 0), ^(size_t y) {
+    for (size_t x = 0; x < width; x += 2) {
+        // Do something with x and y here
+    }
+});
+
+// group
+dispatch_group_t group = dispatch_group_create();
+
+dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
+dispatch_group_async(group, queue, ^(){
+    // Do something that takes a while
+    [self doSomeFoo];
+    dispatch_group_async(group, dispatch_get_main_queue(), ^(){
+        self.foo = 42;
+    });
+});
+dispatch_group_async(group, queue, ^(){
+    // Do something else that takes a while
+    [self doSomeBar];
+    dispatch_group_async(group, dispatch_get_main_queue(), ^(){
+        self.bar = 1;
+    });
+});
+
+// This block will run once everything above is done:
+dispatch_group_notify(group, dispatch_get_main_queue(), ^(){
+    NSLog(@"foo: %d", self.foo);
+    NSLog(@"bar: %d", self.bar);
+});
+
+// 事件源
+NSRunningApplication *mail = [NSRunningApplication 
+  runningApplicationsWithBundleIdentifier:@"com.apple.mail"];
+if (mail == nil) {
+    return;
+}
+pid_t const pid = mail.processIdentifier;
+self.source = dispatch_source_create(DISPATCH_SOURCE_TYPE_PROC, pid, 
+  DISPATCH_PROC_EXIT, DISPATCH_TARGET_QUEUE_DEFAULT);
+dispatch_source_set_event_handler(self.source, ^(){
+    NSLog(@"Mail quit.");
+});
+dispatch_resume(self.source);
+
+// 定时器
+dispatch_source_t source = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 
+  0, 0, DISPATCH_TARGET_QUEUE_DEFAULT);
+dispatch_source_set_event_handler(source, ^(){
+    NSLog(@"Time flies.");
+});
+dispatch_time_t start
+dispatch_source_set_timer(source, DISPATCH_TIME_NOW, 5ull * NSEC_PER_SEC, 
+  100ull * NSEC_PER_MSEC);
+self.source = source;
+dispatch_resume(self.source);
+
+// I/O
+dispatch_data_t a; // Assume this hold some valid data
+dispatch_data_t b; // Assume this hold some valid data
+dispatch_data_t c = dispatch_data_create_concat(a, b);
+
+dispatch_data_apply(c, ^bool(dispatch_data_t region, size_t offset, const void *buffer, size_t size) {
+    fprintf(stderr, "region with offset %zu, size %zu\n", offset, size);
+    return true;
+});
+
+// 基准测试
+size_t const objectCount = 1000;
+uint64_t n = dispatch_benchmark(10000, ^{
+    @autoreleasepool {
+        id obj = @42;
+        NSMutableArray *array = [NSMutableArray array];
+        for (size_t i = 0; i < objectCount; ++i) {
+            [array addObject:obj];
+        }
+    }
+});
+NSLog(@"-[NSMutableArray addObject:] : %llu ns", n);
+
+```
+
+## 线程安全类的设计
+
+主要看一下 Objective-C 中的 property 实现，其它的自行看原文。
+
+>   下文引用自 [ObjC 中国](https://objccn.io/issue-2-4/)。
+
+### 原子属性 (Atomic Properties)
+
+你曾经好奇过 Apple 是怎么处理 atomic 的设置/读取属性的么？至今为止，你可能听说过自旋锁 (spinlocks)，信标 (semaphores)，锁 (locks)，`@synchronized` 等，Apple 用的是什么呢？因为 [Objctive-C 的 runtime](http://www.opensource.apple.com/source/objc4/) 是开源的，所以我们可以一探究竟。
+
+一个非原子的 setter 看起来是这个样子的：
+
+```
+- (void)setUserName:(NSString *)userName {
+      if (userName != _userName) {
+          [userName retain];
+          [_userName release];
+          _userName = userName;
+      }
+}
+```
+
+这是一个手动 `retain/release` 的版本，ARC 生成的代码和这个看起来也是类似的。当我们看这段代码时，显而易见要是 setUserName: 被并发调用的话会造成麻烦。我们可能会释放 `_userName` 两次，这回使内存错误，并且导致难以发现的 bug。
+
+对于任何没有手动实现的属性，编译器都会生成一个 `objc_setProperty_non_gc(id self, SEL _cmd, ptrdiff_t offset, id newValue, BOOL atomic, signed char shouldCopy)` 的调用。在我们的例子中，这个调用的参数是这样的：
+
+```
+objc_setProperty_non_gc(self, _cmd, 
+  (ptrdiff_t)(&_userName) - (ptrdiff_t)(self), userName, NO, NO);
+```
+
+`ptrdiff_t` 可能会吓到你，但是实际上这就是一个简单的指针算术，因为其实 Objective-C 的类仅仅只是 C 结构体而已。
+
+`objc_setProperty` 调用的是如下方法：
+
+```objc
+static inline void reallySetProperty(id self, SEL _cmd, id newValue, 
+  ptrdiff_t offset, bool atomic, bool copy, bool mutableCopy) 
+{
+    id oldValue;
+    id *slot = (id*) ((char*)self + offset);
+
+    if (copy) {
+        newValue = [newValue copyWithZone:NULL];
+    } else if (mutableCopy) {
+        newValue = [newValue mutableCopyWithZone:NULL];
+    } else {
+        if (*slot == newValue) return;
+        newValue = objc_retain(newValue);
+    }
+
+    if (!atomic) {
+        oldValue = *slot;
+        *slot = newValue;
+    } else {
+        spin_lock_t *slotlock = &PropertyLocks[GOODHASH(slot)];
+        _spin_lock(slotlock);
+        oldValue = *slot;
+        *slot = newValue;        
+        _spin_unlock(slotlock);
+    }
+
+    objc_release(oldValue);
+}
+```
+
+除开方法名字很有趣以外，其实方法实际做的事情非常直接，它使用了在 PropertyLocks 中的 128 个自旋锁中的 1 个来给操作上锁。这是一种务实和快速的方式，最糟糕的情况下，如果遇到了哈希碰撞，那么 setter 需要等待另一个和它无关的 setter 完成之后再进行工作。
+
+虽然这些方法没有定义在任何公开的头文件中，但我们还是可用手动调用他们。我不是说这是一个好的做法，但是知道这个还是蛮有趣的，而且如果你想要同时实现原子属性和自定义的 setter 的话，这个技巧就非常有用了。
+
+>   结束引用
 
 ## Refs
 -   [ObjC 中国-并发编程](https://objccn.io/issue-2-1/)
 -   [ObjC 中国-常见的后台实践](https://objccn.io/issue-2-2/)
+-   [ObjC 中国-底层并发 API](https://objccn.io/issue-2-3/)
+-   [ObjC 中国-线程安全类的设计](https://objccn.io/issue-2-4/)
 -   [Session 211 -- Building Concurrent User Interfaces on iOS](https://developer.apple.com/videos/wwdc/2012/)
+-   [自旋锁](http://baike.baidu.com/item/%E8%87%AA%E6%97%8B%E9%94%81)
 
